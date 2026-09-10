@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pinpoint - Email Verification</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        :root {
+            --primary-yellow: #f6b421;
+            --bg-black: #121212;
+            --card-black: #1e1e1e;
+            --text-light: #f5f5f5;
+            --text-muted: #a0a0a0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-black);
+            color: var(--text-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            padding: 40px;
+            background-color: var(--card-black);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+            max-width: 400px;
+            width: 90%;
+            border: 1px solid rgba(246, 180, 33, 0.2);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-yellow);
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            margin-bottom: 10px;
+            font-size: 22px;
+        }
+
+        p {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(246, 180, 33, 0.1);
+            border-top: 4px solid var(--primary-yellow);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .footer {
+            margin-top: 30px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">📍 Pinpoint</div>
+        <div id="loader" class="spinner"></div>
+        <h2 id="status">Verifying your campus pass...</h2>
+        <p id="message">Please hold tight while we confirm your .edu email and connect you to Pinpoint.</p>
+        <div class="footer">© 2026 Pinpoint App. Connecting Campus Organizations & Students.</div>
+    </div>
+
+    <script>
+        const SUPABASE_URL = 'https://btkxfmwbprliubujjdql.supabase.co';
+        const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_3C1AEPVDAH4NZvpQL0A8wA_DjTPc7q7';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+        async function handleVerification() {
+            const statusEl = document.getElementById('status');
+            const messageEl = document.getElementById('message');
+            const loaderEl = document.getElementById('loader');
+            
+            const { data, error } = await supabase.auth.getSession();
+
+            loaderEl.style.display = 'none';
+
+            if (error || !data.session) {
+                statusEl.textContent = "Verification Failed";
+                messageEl.textContent = error ? error.message : "Could not verify your student status. The link may have expired or already been used.";
+            } else {
+                statusEl.textContent = "You're All Set!";
+                messageEl.textContent = "Your .edu email is verified. You can now close this tab, return to Pinpoint, and start exploring campus events.";
+            }
+        }
+
+        handleVerification();
+    </script>
+</body>
+</html>
