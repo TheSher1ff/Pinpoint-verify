@@ -80,8 +80,8 @@
     <div class="container">
         <div class="logo">📍 Pinpoint</div>
         <div id="loader" class="spinner"></div>
-        <h2 id="status">Verifying your campus pass...</h2>
-        <p id="message">Please hold tight while we confirm your .edu email and connect you to Pinpoint.</p>
+        <h2 id="status">Verifying your email...</h2>
+        <p id="message">Please hold tight while we confirm your email and connect you to Pinpoint.</p>
         <div class="footer">© 2026 Pinpoint App. Connecting Campus Organizations & Students.</div>
     </div>
 
@@ -101,10 +101,10 @@
 
             if (error || !data.session) {
                 statusEl.textContent = "Verification Failed";
-                messageEl.textContent = error ? error.message : "Could not verify your student status. The link may have expired or already been used.";
+                messageEl.textContent = error ? error.message : "Could not verify your account. The link may have expired or already been used.";
             } else {
                 statusEl.textContent = "You're All Set!";
-                messageEl.textContent = "Your .edu email is verified. You can now close this tab, return to Pinpoint, and start exploring campus events.";
+                messageEl.textContent = "Your email is verified. You can now close this tab, return to Pinpoint, and start exploring campus events.";
             }
         }
 
